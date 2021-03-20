@@ -58,7 +58,7 @@ void loop() {
     DrawSnails();
 
     displayCount++;
-    if (displayCount == 5)
+    if (displayCount == 50)
     {
       displayCount = 0;
       mode = Mode::Readout;

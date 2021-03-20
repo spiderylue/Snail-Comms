@@ -32,7 +32,31 @@ uint8_t snailshell[8] =
   B11101,
   B10101,
   B10001,
-  B01110
+  B01111
+};
+
+uint8_t snailtail[8] =
+{
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B11000,
+  B11110
+};
+
+uint8_t snailtail2[8] =
+{
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B00000,
+  B11000,
+  B11100
 };
 
 int bottomDrawPosition = -1;
@@ -45,9 +69,11 @@ void SetupSnails()
 //    lcd.begin();
 //    lcd.backlight();
 
-    lcd.createChar(0, snailhead1);
-    lcd.createChar(1, snailhead2);
-    lcd.createChar(2, snailshell);
+    lcd.createChar(10, snailhead1);
+    lcd.createChar(11, snailhead2);
+    lcd.createChar(12, snailshell);
+    lcd.createChar(13, snailtail);
+    lcd.createChar(14, snailtail2);
 
 }
 
@@ -58,11 +84,12 @@ void DrawSnails()
     lcd.setCursor(max(topDrawPosition, 0), 0);
     if (topDrawPosition >= 0)
     {
-      lcd.write(0 + variation);      
+      lcd.write(10 + variation);      
     }
 
     variation = (variation + 1) % 2;
-    lcd.write(2);
+    lcd.write(12);
+    lcd.write(13 + variation);
 
 
     if (!moveBottom)
@@ -77,10 +104,11 @@ void DrawSnails()
     lcd.setCursor(bottomDrawPosition, 1); 
     if (bottomDrawPosition >=0)
     {
-      lcd.write(0 + variation);
+      lcd.write(10 + variation);
     }
     
-    lcd.write(2);
+    lcd.write(12);
+    lcd.write(13 + variation);
 
     if (moveBottom) {
       bottomDrawPosition--;
