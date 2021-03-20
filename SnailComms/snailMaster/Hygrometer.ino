@@ -1,15 +1,13 @@
-#define SensorPin A7
 #define MAX_HYGROMETER 1023
 #define MIN_HYGROMETER 350
-#define HygrometerPowerPin 2
 
 float sensorValue = 0;
 
-void SetupHygrometer() {
-  pinMode(HygrometerPowerPin, OUTPUT);
+void SetupHygrometer(int PowerPin) {
+  pinMode(PowerPin, OUTPUT);
 }
 
-float GetHygro() {
+float GetHygro(int SensorPin, int PowerPin) {
 
   // Returns hygrometer reading as a percentage constrained between 0 and 100
 
@@ -17,7 +15,7 @@ float GetHygro() {
   // whilst the diodes are wet, so we need to control the current
 
   // Switch on current to power pin and wait 1 second
-  digitalWrite(HygrometerPowerPin, HIGH);
+  digitalWrite(PowerPin, HIGH);
   delay(1000);
 
   // Take an average of 100 readings to smooth data
@@ -33,7 +31,7 @@ float GetHygro() {
   float HGoutput = map(sensorValue, MIN_HYGROMETER, MAX_HYGROMETER, 100.f, 0.f) ;
 
   // Switch off current to power pin
-  digitalWrite(HygrometerPowerPin, LOW);
+  digitalWrite(PowerPin, LOW);
 
   return constrain(HGoutput, 0.f, 100.f);
 }
