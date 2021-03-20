@@ -1,6 +1,6 @@
 #define SensorPin A7
-#define MAX_HYGROMETER 1006
-#define MIN_HYGROMETER 283
+#define MAX_HYGROMETER 1023
+#define MIN_HYGROMETER 350
 #define HygrometerPowerPin 2
 
 float sensorValue = 0;
@@ -10,6 +10,8 @@ void SetupHygrometer() {
 }
 
 float GetHygro() {
+
+  // Returns hygrometer reading as a percentage constrained between 0 and 100
 
   // Resistance-based hygrometers will corrode if there is a continuous current
   // whilst the diodes are wet, so we need to control the current
@@ -28,10 +30,10 @@ float GetHygro() {
   sensorValue = sensorValue / 100.0;
 
   // Create a percentage value for humidity
-  float HGoutput = ((sensorValue - MIN_HYGROMETER) / (MAX_HYGROMETER - MIN_HYGROMETER)) * 100.0;
+  float HGoutput = map(sensorValue, MIN_HYGROMETER, MAX_HYGROMETER, 100.f, 0.f) ;
 
   // Switch off current to power pin
   digitalWrite(HygrometerPowerPin, LOW);
 
-  return HGoutput;
+  return constrain(HGoutput, 0.f, 100.f);
 }
