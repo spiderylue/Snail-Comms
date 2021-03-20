@@ -5,8 +5,11 @@ int HYGROMETER_FRONT_POWERPIN = 2;
 int HYGROMETER_FRONT_SENSORPIN = A2;
 int HYGROMETER_BACK_POWERPIN = 3;
 int HYGROMETER_BACK_SENSORPIN = A3;
+int THERMOHUMID_FRONT_PIN = 5;
+int THERMOHUMID_BACK_PIN = 6;
 
-ThermoHumidSensor ThermoHumidFront(5);
+ThermoHumidSensor ThermoHumidFront(THERMOHUMID_FRONT_PIN);
+ThermoHumidSensor ThermoHumidBack(THERMOHUMID_BACK_PIN);
 
 void setup() {
   Serial.begin(9600);
@@ -21,13 +24,15 @@ void setup() {
 
 void loop() {
 
-  float Temp = ThermoHumidFront.GetTemp();
+  float TempFront = ThermoHumidFront.GetTemp();
+  float TempBack = ThermoHumidBack.GetTemp();
   float HygroFront = GetHygro(HYGROMETER_FRONT_SENSORPIN, HYGROMETER_FRONT_POWERPIN);
   float HygroBack = GetHygro(HYGROMETER_BACK_SENSORPIN, HYGROMETER_BACK_POWERPIN);
-  float Hum = ThermoHumidFront.GetHumid();
+  float HumFront = ThermoHumidFront.GetHumid();
+  float HumBack = ThermoHumidBack.GetHumid();
 
   ClearDisplay();
-  UpdateDisplay(0, HygroFront, Temp, Hum);
-  UpdateDisplay(1, HygroBack, Temp, Hum);
+  UpdateDisplay(0, HygroFront, TempFront, HumFront);
+  UpdateDisplay(1, HygroBack, TempBack, HumBack);
   delay(1000);
 } 
